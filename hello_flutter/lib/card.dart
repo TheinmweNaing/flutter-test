@@ -68,25 +68,17 @@ class ContactCardLand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
       margin: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(4),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade400.withOpacity(0.7),
-              blurRadius: 3,
-              spreadRadius: 0.8,
-              offset: Offset(0, 2),
-            )
-          ]),
+      clipBehavior: Clip.antiAlias,
       child: Material(
         color: Colors.transparent,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: Image(
+                fit: BoxFit.fill,
                 image: AssetImage("images/flutter.jpg"),
               ),
             ),

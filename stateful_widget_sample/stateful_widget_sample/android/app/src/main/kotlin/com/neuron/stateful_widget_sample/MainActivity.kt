@@ -1,0 +1,6 @@
+package com.neuron.stateful_widget_sample
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
