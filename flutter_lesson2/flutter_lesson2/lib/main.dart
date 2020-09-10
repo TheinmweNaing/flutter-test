@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -218,8 +217,12 @@ class MyApp extends StatelessWidget {
 }
 
 Widget _createHorizontalLists(BuildContext context, String text) {
+  var color = Colors.primaries[Random().nextInt(Colors.primaries.length)];
+
   return Card(
-    elevation: 2,
+    shape: ContinuousRectangleBorder(
+      borderRadius: BorderRadius.circular(50),
+    ),
     child: Container(
       width: MediaQuery.of(context).size.width * 0.27,
       child: Column(
@@ -227,10 +230,15 @@ Widget _createHorizontalLists(BuildContext context, String text) {
         children: [
           Expanded(
             child: Card(
-              elevation: 2,
+              elevation: 8,
+              shadowColor: color.withOpacity(0.4),
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(50.0),
+                ),
+              ),
+              color: color,
               margin: EdgeInsets.all(8),
-              color:
-                  Colors.primaries[Random().nextInt(Colors.primaries.length)],
             ),
           ),
           Container(
@@ -254,13 +262,35 @@ Widget _createHorizontalLists(BuildContext context, String text) {
 
 Widget _createListTile(String text) {
   var formattedDate = DateFormat.yMMMd('en_US').add_jm().format(DateTime.now());
-
+  var color = Colors.primaries[Random().nextInt(Colors.primaries.length)];
   return Card(
     elevation: 2,
+    shape: ContinuousRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(50.0),
+        bottomRight: Radius.circular(50.0),
+      ),
+    ),
     child: ListTile(
-      leading: CircleAvatar(
-        backgroundColor:
-            Colors.primaries[Random().nextInt(Colors.primaries.length)],
+      leading: Container(
+        decoration: ShapeDecoration(
+          color: color,
+          shape: ContinuousRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(45.0),
+              bottomRight: Radius.circular(45.0),
+            ),
+          ),
+          shadows: [
+            BoxShadow(
+              color: color.withOpacity(0.4),
+              blurRadius: 8,
+              spreadRadius: 1,
+            )
+          ],
+        ),
+        height: 50,
+        width: 50,
       ),
       title: Text(
         "#$text",
