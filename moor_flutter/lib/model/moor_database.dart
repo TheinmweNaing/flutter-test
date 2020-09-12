@@ -58,11 +58,11 @@ class MyDatabase extends _$MyDatabase {
   Stream<List<Developer>> findAll({String name, String heading}) {
     final query = select(developers);
     if (name != null && name.isNotEmpty) {
-      query..where((d) => d.name.like("$name%"));
+      query.where((d) => d.name.like("$name%"));
     }
 
     if (heading != null && heading.isNotEmpty) {
-      query..where((d) => d.heading.equals(heading));
+      query.where((d) => d.heading.equals(heading));
     }
     return query.watch();
   }
