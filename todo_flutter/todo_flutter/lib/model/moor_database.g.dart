@@ -9,7 +9,7 @@ part of 'moor_database.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class Todo extends DataClass implements Insertable<Todo> {
   final int id;
-  final DateTime date;
+  final int date;
   final String body;
   final bool favourite;
   Todo({@required this.id, this.date, this.body, @required this.favourite});
@@ -17,13 +17,11 @@ class Todo extends DataClass implements Insertable<Todo> {
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
     return Todo(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      date:
-          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
+      date: intType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
       body: stringType.mapFromDatabaseResponse(data['${effectivePrefix}body']),
       favourite:
           boolType.mapFromDatabaseResponse(data['${effectivePrefix}favourite']),
@@ -36,7 +34,7 @@ class Todo extends DataClass implements Insertable<Todo> {
       map['id'] = Variable<int>(id);
     }
     if (!nullToAbsent || date != null) {
-      map['date'] = Variable<DateTime>(date);
+      map['date'] = Variable<int>(date);
     }
     if (!nullToAbsent || body != null) {
       map['body'] = Variable<String>(body);
@@ -63,7 +61,7 @@ class Todo extends DataClass implements Insertable<Todo> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Todo(
       id: serializer.fromJson<int>(json['id']),
-      date: serializer.fromJson<DateTime>(json['date']),
+      date: serializer.fromJson<int>(json['date']),
       body: serializer.fromJson<String>(json['body']),
       favourite: serializer.fromJson<bool>(json['favourite']),
     );
@@ -73,13 +71,13 @@ class Todo extends DataClass implements Insertable<Todo> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'date': serializer.toJson<DateTime>(date),
+      'date': serializer.toJson<int>(date),
       'body': serializer.toJson<String>(body),
       'favourite': serializer.toJson<bool>(favourite),
     };
   }
 
-  Todo copyWith({int id, DateTime date, String body, bool favourite}) => Todo(
+  Todo copyWith({int id, int date, String body, bool favourite}) => Todo(
         id: id ?? this.id,
         date: date ?? this.date,
         body: body ?? this.body,
@@ -111,7 +109,7 @@ class Todo extends DataClass implements Insertable<Todo> {
 
 class TodosCompanion extends UpdateCompanion<Todo> {
   final Value<int> id;
-  final Value<DateTime> date;
+  final Value<int> date;
   final Value<String> body;
   final Value<bool> favourite;
   const TodosCompanion({
@@ -128,7 +126,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   });
   static Insertable<Todo> custom({
     Expression<int> id,
-    Expression<DateTime> date,
+    Expression<int> date,
     Expression<String> body,
     Expression<bool> favourite,
   }) {
@@ -142,7 +140,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
 
   TodosCompanion copyWith(
       {Value<int> id,
-      Value<DateTime> date,
+      Value<int> date,
       Value<String> body,
       Value<bool> favourite}) {
     return TodosCompanion(
@@ -160,7 +158,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
       map['id'] = Variable<int>(id.value);
     }
     if (date.present) {
-      map['date'] = Variable<DateTime>(date.value);
+      map['date'] = Variable<int>(date.value);
     }
     if (body.present) {
       map['body'] = Variable<String>(body.value);
@@ -197,11 +195,11 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   }
 
   final VerificationMeta _dateMeta = const VerificationMeta('date');
-  GeneratedDateTimeColumn _date;
+  GeneratedIntColumn _date;
   @override
-  GeneratedDateTimeColumn get date => _date ??= _constructDate();
-  GeneratedDateTimeColumn _constructDate() {
-    return GeneratedDateTimeColumn(
+  GeneratedIntColumn get date => _date ??= _constructDate();
+  GeneratedIntColumn _constructDate() {
+    return GeneratedIntColumn(
       'date',
       $tableName,
       true,

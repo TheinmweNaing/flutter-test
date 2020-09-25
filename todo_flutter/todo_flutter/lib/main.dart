@@ -50,7 +50,7 @@ class TodoPage extends StatefulWidget {
 class _TodoPageState extends State<TodoPage> {
   List<Todo> _list;
   CustomPopupMenu _menuSelected;
-  String _viewSelectedValue;
+  String _viewSelectedValue = "List";
   String _sortSelectedValue;
   bool _favourite;
   bool _gridSelected;
@@ -87,8 +87,10 @@ class _TodoPageState extends State<TodoPage> {
     });
   }
 
-  void findAllTodo({String name, DateTime dateTime}) async {
-    final list = await database.findAll(name: name, dateTime: dateTime).first;
+  void findAllTodo({String name, DateTime dateTime, bool favourite}) async {
+    final list = await database
+        .findAll(name: name, dateTime: dateTime, favourite: favourite)
+        .first;
     setState(() {
       _list = list;
     });
@@ -391,7 +393,9 @@ class _TodoPageState extends State<TodoPage> {
                                           Text(
                                             DateFormat.yMMMd('en_US')
                                                 .add_jm()
-                                                .format(todo.date),
+                                                .format(DateTime
+                                                    .fromMillisecondsSinceEpoch(
+                                                        todo.date)),
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: Colors.grey[500],
@@ -488,7 +492,9 @@ class _TodoPageState extends State<TodoPage> {
                                           Text(
                                             DateFormat.yMMMd('en_US')
                                                 .add_jm()
-                                                .format(todo.date),
+                                                .format(DateTime
+                                                    .fromMillisecondsSinceEpoch(
+                                                        todo.date)),
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: Colors.grey[500],

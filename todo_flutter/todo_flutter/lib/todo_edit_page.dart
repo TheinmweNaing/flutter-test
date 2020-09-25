@@ -120,7 +120,7 @@ class _TodoEditPageState extends State<TodoEditPage> {
               widget.database
                   .insert(TodosCompanion(
                 body: Value(_noteController.text),
-                date: Value(DateTime.now()),
+                date: Value(DateTime.now().toUtc().millisecondsSinceEpoch),
                 favourite: Value(_favourite),
               ))
                   .whenComplete(() {
@@ -131,7 +131,7 @@ class _TodoEditPageState extends State<TodoEditPage> {
                   .updateDeveloper(TodosCompanion(
                 id: Value(widget.todo.id.value),
                 body: Value(_noteController.text),
-                date: Value(DateTime.now()),
+                date: Value(DateTime.now().toUtc().millisecondsSinceEpoch),
                 favourite: Value(_favourite),
               ))
                   .whenComplete(() {

@@ -10,7 +10,7 @@ part 'moor_database.g.dart';
 class Todos extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  DateTimeColumn get date => dateTime().nullable()();
+  IntColumn get date => integer().nullable()();
 
   TextColumn get body => text().nullable()();
 
@@ -62,7 +62,7 @@ class MyDatabase extends _$MyDatabase {
     return (select(todos)..orderBy([(t) => OrderingTerm.desc(t.date)])).get();
   }
 
-  Stream<List<Todo>> findAll({String name, DateTime dateTime}) {
+  Stream<List<Todo>> findAll({String name, DateTime dateTime, bool favourite}) {
     final query = select(todos);
 
     if (name != null && name.isNotEmpty) {
@@ -70,11 +70,23 @@ class MyDatabase extends _$MyDatabase {
     }
 
     if (dateTime != null) {
-      query.where((t) =>
-          t.date.year.equals(dateTime.year) &
-          t.date.month.equals(dateTime.month) &
-          t.date.day.equals(dateTime.day));
+      query.where((t) {
+        int lower = new DateTime(
+                dateTime.year, dateTime.month, dateTime.day, 0, 0, 0, 0, 0)
+            .millisecondsSinceEpoch;
+        int higher = new DateTime(
+                dateTime.year, dateTime.month, dateTime.day, 23, 59, 59, 0, 0)
+            .millisecondsSinceEpoch;
+
+        return t.date.isBetween(Variable(lower), Variable(higher));
+      });
     }
+
+    //TODO
+    /*if (favourite != null) {
+      query.where((t) => t.favourite);
+    }*/
+
     return query.watch();
   }
 }
