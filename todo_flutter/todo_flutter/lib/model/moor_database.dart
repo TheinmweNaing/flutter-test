@@ -50,9 +50,9 @@ class MyDatabase extends _$MyDatabase {
     return (select(todos)..where((t) => t.id.equals(id))).getSingle();
   }
 
-  Future<List<Todo>> findFav() {
+  /*Future<List<Todo>> findFav() {
     return (select(todos)..where((t) => t.favourite)).get();
-  }
+  }*/
 
   Future<List<Todo>> findDateByAsc() {
     return (select(todos)..orderBy([(t) => OrderingTerm.asc(t.date)])).get();
@@ -82,10 +82,9 @@ class MyDatabase extends _$MyDatabase {
       });
     }
 
-    //TODO
-    /*if (favourite != null) {
+    if (favourite != null) {
       query.where((t) => t.favourite);
-    }*/
+    }
 
     return query.watch();
   }

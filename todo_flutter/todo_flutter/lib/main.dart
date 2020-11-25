@@ -96,12 +96,12 @@ class _TodoPageState extends State<TodoPage> {
     });
   }
 
-  void findFavourites() async {
+  /*void findFavourites() async {
     final list = await database.findFav();
     setState(() {
       _list = list;
     });
-  }
+  }*/
 
   void findDateByAsc() async {
     final list = await database.findDateByAsc();
@@ -263,7 +263,7 @@ class _TodoPageState extends State<TodoPage> {
                   findAllTodo(dateTime: _dateSelected);
                 });
               } else {
-                findAllTodo();
+                findAllTodo(favourite: _favSelected);
                 _dateSelected = DateTime.now();
               }
             });
@@ -277,7 +277,8 @@ class _TodoPageState extends State<TodoPage> {
             if (_favSelected == false) {
               setState(() {
                 _favSelected = true;
-                findFavourites();
+                //findFavourites();
+                findAllTodo(favourite: _favSelected);
               });
             } else {
               setState(() {
